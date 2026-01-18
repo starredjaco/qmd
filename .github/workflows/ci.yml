@@ -7,11 +7,16 @@ on:
     branches: [main]
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   # Job 1: Package qmd for distribution
   package:
     name: Package qmd
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -58,6 +63,8 @@ jobs:
   test-bun:
     name: Test with Bun
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -100,6 +107,8 @@ jobs:
   test-node:
     name: Test with Node.js ${{ matrix.node-version }}
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     strategy:
       fail-fast: false
       matrix:
@@ -163,6 +172,8 @@ jobs:
   node-compatibility:
     name: Node.js Compatibility Check
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -262,6 +273,8 @@ jobs:
   ci-success:
     name: CI Status
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     needs: [package, test-bun, test-node, node-compatibility]
     if: always()
     steps:
